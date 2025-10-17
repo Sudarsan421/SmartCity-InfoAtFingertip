@@ -1,0 +1,61 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+
+<script type="text/javascript" src='js/jquery-1.10.0.min.js'></script>
+</head>
+<body>
+
+<table id="sort-table">
+    <tbody>
+        <tr><td>he</td></tr>
+        <tr><td>stackoverflow</td></tr>
+        <tr><td>by</td></tr>
+        <tr><td>vote</td></tr>
+        <tr><td>post</td></tr>
+        <tr><td>And</td></tr>
+        <tr><td>clicking</td></tr>
+        <tr><td>up</td></tr>
+        <tr><td>did</td></tr>
+    </tbody>
+</table>
+<br>
+<button class="sort-table asc">sort ASC</button>
+<button class="sort-table desc">sort DESC</button>
+
+
+
+<script type="text/javascript">
+
+$(function(){
+
+  
+  $('.sort-table').click(function(e) {
+      e.preventDefault();                        // prevent default button click behaviour
+
+      var sortAsc = $(this).hasClass('asc'),     // ASC or DESC
+          $table  = $('#sort-table'),            // cache the target table DOM element
+          $rows   = $('tbody > tr', $table);     // cache all rows from the target table body
+
+      $rows.sort(function(a, b) {
+
+          var keyA = $('td',a).text();
+          var keyB = $('td',b).text();
+
+          if (sortAsc) {
+              return (keyA > keyB) ? 1 : 0;     // A bigger than B, sorting ascending
+          } else {
+              return (keyA < keyB) ? 1 : 0;     // B bigger than A, sorting descending
+          }
+      });
+
+  });
+
+  
+});
+
+
+
+</script>
+</body>
+</html>

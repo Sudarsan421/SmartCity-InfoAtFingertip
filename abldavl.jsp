@@ -1,0 +1,123 @@
+<%@ include file="dbcon.jsp" %>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>Smart City</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link href="css/style1.css" rel="stylesheet" type="text/css" />
+<link rel="stylesheet" type="text/css" href="css/coin-slider.css" />
+<script type="text/javascript" src="js/cufon-yui.js"></script>
+<script type="text/javascript" src="js/cufon-aller.js"></script>
+<script type="text/javascript" src="js/jquery-1.4.2.min.js"></script>
+<script type="text/javascript" src="js/script.js"></script>
+<script type="text/javascript" src="js/coin-slider.min.js"></script>
+<style type="text/css">
+<!--
+.style1 {
+	font-size: large;
+	font-weight: bold;
+	color: #000000;
+}
+-->
+</style>
+</head>
+<body>
+<div class="main">
+  <div class="header">
+    <div class="header_resize">
+      <div class="logo">
+        <h1><a href="about.jsp">Smart City <small>Company Slogan Here</small></a></h1>
+      </div>
+      <div class="menu_nav">
+		<jsp:include page="admintop.jsp" />
+      </div>
+      <div class="clr"></div>
+      <div class="clr"></div>
+    </div>
+  </div>
+  <div class="content">
+    <div class="content_resize">
+      <div class="mainbar style1">
+	  <br />
+	  Welcome <%=((String) session.getAttribute("name")).toUpperCase() %> to Admin Home        
+        <div class="article">
+	   <form action="abldavl1.jsp" method="get">
+Choose Blood Bank <select name="oid">
+<%
+try{
+ResultSet rs=st.executeQuery("select * from login a, organisation b where a.type='BloodBank' and a.id=b.oid");
+while(rs.next()){
+%>
+	<option value="<%=rs.getString(1)%>"><%=rs.getString(10)+" - "+rs.getString(13)%></option>
+<%
+}
+}catch(Exception e){  }
+%>	
+</select> <input type="submit" value="Submit" /></form>
+
+<br />
+	
+<%
+try{
+String oid=(String)session.getAttribute("id");
+String qry="select * from blood a, organisation b  where a.oid=b.oid limit 10";
+//out.print(qry);
+ResultSet rs=st.executeQuery(qry);
+if(rs.next()){
+rs.beforeFirst();
+int cnt=1;
+%>
+<table width="796" border="1" cellpadding="3">
+<tr><td width="41"><span class="style3 style7"><strong>Slno</strong></span></td>
+<td width="132"><span class="style3 style7"><strong>Organisation Name</strong></span></td>
+<td width="155"><span class="style3 style7"><strong>Address</strong></span></td>
+<td width="96"><span class="style3 style7"><strong>Phone</strong></span></td> 
+<td width="117"><span class="style3 style7"><strong>Mail</strong></span></td> 
+<td width="65"><span class="style3 style7"><strong>Blood Group</strong></span></td>
+<td width="53"><span class="style3 style7"><strong>Rh Factor</strong></span></td>
+<td width="53"><span class="style3 style7"><strong>Unit</strong></span></td> 
+</tr>
+<%	while(rs.next()){	%>
+
+<tr><td><span class="style10 style3"><%=cnt++ %></span></td>
+<td><span class="style10 style3"><%=rs.getString(7)%></span></td>
+<td><span class="style10 style3"><%=rs.getString(8)+" "+rs.getString(9)+" "+rs.getString(10)%></span></td>
+<td><span class="style10 style3"><%=rs.getString(14)%></span></td>
+<td><span class="style10 style3"><%=rs.getString(15)%></span></td>
+
+<td><span class="style10 style3"><%=rs.getString(3)%></span></td>
+<td><span class="style10 style3"><%=rs.getString(4)%></span></td>
+<td><span class="style10 style3"><%=rs.getString(5)%></span></td> 
+</tr>
+<%	}	%>
+</table>
+<%
+}else{
+	out.print("<font color=red size=3>No blood is currently available.</font>");
+}
+con.close();
+}catch(Exception e){  }
+%> 
+		</div>
+		</div>
+		
+      <div class="sidebar"> 
+        <div class="gadget">
+			<jsp:include page="adminleft.jsp" />
+        </div>
+        
+      </div>
+	  
+<br /><br /><br /><br /><br /><br /><br /><br />
+<br /><br /><br /><br /><br /><br /><br /><br />
+<br /><br /><br /><br />
+      <div class="clr"></div>
+    </div>
+    </div>
+  </div>
+  <div class="footer">
+    <jsp:include page="footer.jsp" />
+  </div>
+</div>
+</body>
+</html>
